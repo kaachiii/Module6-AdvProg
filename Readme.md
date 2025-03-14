@@ -26,6 +26,10 @@ Saya melakukan refactor kembali pada bagian `handle_connection` dan `handle_resp
 
 ### Commit 5 reflection notes
 1. How the ThreadPool works
+
 Thread pool adalah sekumpulan thread yang sudah siap menjalankan tugas tetapi masih menunggu untuk diberikan tugas. Terdapat sejumlah thread tetap yang mengantri untuk menangani permintaan sesuai urutan yang ada. Jika satu thread sedang menjalankan tugas, thread lain tetap tersedia untuk menangani permintaan baru sehingga server tetap responsif meskipun ada proses yang masih berlangsung.  
 
 Selain itu, thread pool memungkinkan server untuk tetap memproses permintaan lain meskipun ada yang sedang menjalankan `/sleep`, sehingga mengurangi keterlambatan seperti sebelumnya. Dengan cara ini, server menjadi lebih efisien karena dapat memproses beberapa tugas secara bersamaan. Selain itu, jumlah thread dalam thread pool program ini ditetapkan sebanyak 4 agar server tetap stabil dan tidak terbebani saat menangani banyak permintaan sekaligus.
+
+### Commit bonus reflection notes
+Saya melakukan improvement dengan cara mengganti `new` dengan `build` untuk membuat Threadpool agar lebih jelas dalam menunjukkan bahwa proses ini dapat gagal dan mengembalikan `Result`, sehingga jika ukuran thread pool tidak valid (misalnya nol atau negatif), program dapat menangani error dengan lebih baik daripada langsung panik.
