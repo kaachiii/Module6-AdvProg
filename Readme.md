@@ -23,3 +23,9 @@ Saya memisahkan logika penanganan koneksi dan pembuatan respons dengan menggunak
 
 ### Commit 4 reflection notes
 Saya melakukan refactor kembali pada bagian `handle_connection` dan `handle_response`. Selain itu, saya juga menambahkan `thread, time::Duration` pada bagian `use std::` agar server dapat menangani permintaan secara lebih efisien dengan menunda eksekusi sementara atau memungkinkan penggunaan multi-threading untuk menangani beberapa koneksi secara bersamaan. Saya juga menambahkan durasi sleep pada `handle_response`, khususnya pada permintaan `"GET /sleep HTTP/1.1"`, untuk mensimulasikan delay selama 10 detik sebelum mengembalikan respons sehingga saya dapat menguji bagaimana server menangani permintaan yang membutuhkan waktu pemrosesan lebih lama.
+
+### Commit 5 reflection notes
+1. How the ThreadPool works
+Thread pool adalah sekumpulan thread yang sudah siap menjalankan tugas tetapi masih menunggu untuk diberikan tugas. Terdapat sejumlah thread tetap yang mengantri untuk menangani permintaan sesuai urutan yang ada. Jika satu thread sedang menjalankan tugas, thread lain tetap tersedia untuk menangani permintaan baru sehingga server tetap responsif meskipun ada proses yang masih berlangsung.  
+
+Selain itu, thread pool memungkinkan server untuk tetap memproses permintaan lain meskipun ada yang sedang menjalankan `/sleep`, sehingga mengurangi keterlambatan seperti sebelumnya. Dengan cara ini, server menjadi lebih efisien karena dapat memproses beberapa tugas secara bersamaan. Selain itu, jumlah thread dalam thread pool program ini ditetapkan sebanyak 4 agar server tetap stabil dan tidak terbebani saat menangani banyak permintaan sekaligus.
